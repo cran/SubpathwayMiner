@@ -1,0 +1,261 @@
+%
+% NOTE -- ONLY EDIT SubpathwayMiner.Rnw!!!
+% SubpathwayMiner.tex file will get overwritten.
+%
+%\VignetteIndexEntry{SubpathwayMiner Overview}
+%\VignetteKeywords{pathway}
+%\VignettePackage{SubpathwayMiner}
+%\VignetteDepends{RBGL,KEGG.db,fdrtool,Rgraphviz}
+
+\documentclass[12pt]{article}
+
+\usepackage{Sweave}
+
+\author{Chunquan Li}
+
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+
+\newcommand\Rpackage[1]{{\textsf{#1}\index{#1 (package)}}}
+\newcommand\RpackageNoindex[1]{{\textsf{#1}}}
+\newcommand\Rclass[1]{{\textit{#1}\index{#1 (class)}}}
+\newcommand\Rfunction[1]{{{\small\texttt{#1}}\index{#1 (function)}}}
+\newcommand\Rmethod[1]{{\small\texttt{#1}}}
+\newcommand\Rcommand[1]{{{\small\texttt{#1}}\index{#1 (function)}}}
+\newcommand\Rfunarg[1]{{\small\texttt{#1}}}
+\newcommand\Robject[1]{{\small\texttt{#1}}}
+
+\bibliographystyle{plainnat}
+
+\begin{document}
+
+\title{How To Use SubpathwayMiner}
+\maketitle
+\tableofcontents
+
+\section{Overview}
+This vignette demonstrate how to easily annotate genes to pathways or sub-pathways using the \Rpackage{SubpathwayMiner} package. To do this,
+let us generate an example of gene sets:
+%
+
+<<echo=FALSE>>=
+library(SubpathwayMiner)
+library(Rgraphviz)
+@ 
+get an example of gene sets.
+<<>>=
+geneList<-getAexample(k=100)
+geneList[1:10]
+@
+
+\section{A simple example of annotating genes to pathways}
+Annotate a set of genes to pathways. 
+<<>>=
+geneList<-getAexample(k=100)
+ann<-getAnn(geneList)
+result<-printAnn(ann)
+@ 
+Display 10 rows and 4 columns of results.
+<<>>=
+result[1:10,2:5]
+@ 
+Annotate a set of genes to sub-pathways.
+<<>>=
+geneList<-getAexample(k=100)
+ann<-getKcsmpAnn(geneList,k=4)
+printAnn(ann)[1:10,2:5]
+@
+\section{Annotate genes to pathways}
+The function \Rfunction{getAnn} in the \Rpackage{SubpathwayMiner} package not only facilitates the annotation and identification of pathways but also sub-pathway annotation and identification of metabolic pathways. It can annotate a set of genes to entire pathways or sub-pathways of metabolic pathways by setting the 
+value of the argument \Rfunarg{graphList}. The return value of the function is a list of the annotated information.
+The list has eight elements: 'pathwayName', 'annGeneList', 'annGeneNumber', 'annBgNumber', 'geneNumber', 'bgNumber', 'pvalue', 
+'qvalue'. They represent pathway name, genes annotated to the pathway, number of genes annotated to the pathway, number of background 
+genes annoted to the pathway, number of genes in the study, number of background genes, p-value, and FDR-corrected q-value.
+
+\subsection{Annotate gene sets to entire pathways}
+If the value of argument \Rfunarg{graphList} in the function \Rfunction{getAnn} is the return value of the function \Rfunction{getDefaultGraph},  these genes will be annotated to all pathways. Of course, this is the default setting of the function \Rfunction{getAnn}.
+
+The code below can annotate a set of genes to pathways.
+<<>>=
+ann<-getAnn(geneList)
+ann[1:2]
+@
+
+\subsection{Annotate gene sets to sub-pathways of metabolic pathways}
+If the value of argument \Robject{graphList} is a list of subGraph, e.g., the return value of \Rfunction{getKcSubGraph}, these genes will be annotated to sub-pathways of metabolic network. 
+<<>>=
+subGraphList<-getKcSubGraph(k=4)
+ann<-getAnn(geneList,graphList=subGraphList)
+@
+we also provide a simple function for the sub-pathway annotation of metabolic pathways.
+<<>>=
+ann<-getKcsmpAnn(geneList,k=4)
+@
+
+\subsection{Identify pathways or sub-pathways}
+Get the statistically signicantly enriched pathways according to pvalue.
+<<>>=
+ann<-getAnn(geneList)
+cutedAnn<-cutoffAnn(ann,"pvalue","<",0.0001)
+printAnn(cutedAnn)[2:5]
+@
+
+
+\section{Display and save results}
+\subsection{Use data frame to display results}
+To visualize the results, the list of results returned from the function \Rfunction{getAnn} can be converted to the \Robject{data.frame} by using the function \Rfunction{printAnn}. But, note that Compared with \Robject{data.frame}, the \Robject{list} provides more information, e.g., the annotated genes are saved in list, yet not in the data.frame. The row names data.frame are pathway identifiers, e.g, path:00010. It's   
+columns include pathwayName, annGeneRatio, annBgRatio, pvalue, qvalue. The annGeneRatio is the ratio of the annotated genes, e.g., 30/1000 means that 30 genes in 1000 genes are annotated. The qvalue is the FDR-corrected q-value.
+<<>>=
+ann<-getAnn(geneList)
+result<-printAnn(ann)
+result[1:10,2:5]
+@
+\subsection{Save annotation results to a tab-delimited file}
+One can easily save the annotation results to a tab-delimited file. Note that the argument \Rfunarg{col.names}=NA is essential..
+<<eval=FALSE>>=
+ geneList<-getAexample(k=1000)
+ ann<-getAnn(geneList)
+ result<-printAnn(ann)
+ write.table(result,file="result",col.names=NA,sep="\t")
+@
+\section{Visualization of pathways}
+\subsection{Visualize sub-pathways using the function plotAnn}
+Users can use the function \Rfunction{plotAnn} to visualize the pathways or sub-pathways of metabolic pathways. The red nodes in the result graph represent the enzymes which include the submitted genes.
+
+
+Visualize sub-pathways of metabolic pathways.
+<<fig=TRUE>>=
+subGraphList<-getKcSubGraph(k=4)
+ann<-getAnn(geneList,graphList=subGraphList)
+plotAnn("path:00010_1",subGraphList,ann) 
+@
+\subsection{Visualize pathways or sub-pathways through linking to KEGG web site}
+Visualize sub-pathways of metabolic pathways.
+<<eval=FALSE>>=
+subGraphList<-getKcSubGraph(k=4)
+ann<-getAnn(geneList,graphList=subGraphList)
+gotoKEGG("path:00010_1",ann)
+@
+%
+Visualize pathways.
+<<eval=FALSE>>=
+ann<-getAnn(geneList)
+gotoKEGG("path:00010",ann)
+@
+
+\section{How to set organism and gene identifier}
+Users that want to annotate genes to pathways or sub-pathways should ensure that the type of organism and gene identifiers accord with the return value of the function \Rfunction{getOrgAndIdType} that can check the type of organism and identifier in the current study. You can do:
+<<>>=
+getOrgAndIdType()
+@ 
+The return values mean that the type of organism and identifier in the current study are Homo sapiens and Entrez gene identifiers. If they are different from the type of your genes, you need to change them with some functions, e.g., \Rfunction{updateOrgAndIdType}, \Rfunction{data}, \Rfunction{loadKe2g}.
+
+\subsection{Set or update the organism and the type of gene identifier}
+The existing tools mainly use DBMS (data base management system) to store all data relative to analysis of pathways and the update process of the data is transparent to users, which means that the annotation results users get from these tools may become outdated. We don't use DBMS to store data. We present a new method that enables users to update data by themselves. Users are firstly required to set organism and type of gene identifier before annotateing genes to the pathways. According to the setting, the system can download all data relative to analysis of pathways in the organism, and then treat and store them in an environment variable in R. Through the method the system can synchronize the data with the KEGG GENE database and support most organisms and cross reference identifiers in the KEGG GENE database. 
+
+The code below means that the type of organism and identifier in the current study are setted as Saccharomyces cerevisiae and sgd identifier in Saccharomyces Genome Database. When we run it, the system will download all data relative to analysis of pathways in the organism, and then treat and store them in an environment variable in R. Finally, Users can use our system to annotate and identify pathways or sub-pathways.
+
+<<eval=FALSE>>=
+ updateOrgAndIdType("sce","sgd-sce")
+@
+
+\subsection{Load and save the environment variable of the system}
+We have considered that our method to store and update data may be time consuming for large organisms that have many genes in common. Thus, the system provide two functions to easily save and load the environment variable of the system, which make users update all data relative to analysis of pathways in the organism one time only and repeatedly use them in the future. 
+
+The code below is used to save the environment variable of Saccharomyces cerevisiae. Note that the data is saved to the working directory.
+
+<<eval=FALSE>>=
+saveKe2g("sce_sgd-sce.rda")
+@
+
+When one needs to use the environment variables of Saccharomyces cerevisiae next time, one can use the function loadKe2g to load the last  environment variable. 
+
+The code below is used to load the environment variables of Saccharomyces cerevisiae. Note that you need to set your working directory to the directory of the data file.
+<<eval=FALSE>>=
+loadKe2g("sce_sgd-sce.rda")
+@
+\subsection{Select the organism provided by the system}
+The environment variables of organisms with well annotated genomes are provided by the system and users can use the function \Rfunction{data} to load them.
+
+The code below is used to load the environment variables of Saccharomyces cerevisiae provided by our system. the type of gene identifier is ncbi-geneid.
+<<eval=FALSE>>=
+data("sce_ncbi-geneid")
+@
+
+\section{Use our flexible model to annotate genes to user-defined sub-pathways}
+Our system provides a flexible model for supporting the user-defined sub-pathways. To date, many algorithms in concepts of graph are vailable in the R packages (Huber et al., 2007). Through our model users can use easily these algorithms to annotate genes to the sub-pathways themselves. 
+
+\subsection{Simplification version of metabolic pathways}
+Generally, A metabolic pathway can be considered as a graph with chemical compounds as 
+nodes and enzymes as edges. We simplify metabolic pathways. Each metabolic pathway is converted to an undirected graph with enzymes as nodes. Two enzymes are connected by an edge if their corresponding reactions have a common compound. Chemical compounds are then omitted from graphs. If we consider the direction of reaction. The pathway will be a directed graph. We use the XML package to take out the relationship of enzymes from the XML version of the metabolic pathway maps, and then save simplification version of metabolic pathways to a list of \Rclass{graph}. 
+
+The code below can get the data from the environment variable of the system.
+<<>>=
+uGraph<-getDefaultUndirectedGraph()
+uGraph[1:2]
+@
+
+The return value of the function \Rfunction{getDefaultUndirectedGraph} is a list of \Rclass{graph}. The first graph in the list is the graph representation of the pathway "path:00010". The pathway's name is Glycolysis / Gluconeogenesis. One can use the function \Rfunction{getPathwayNameFromId} to get it. 
+<<>>=
+getPathwayNameFromId("path:00010")
+@
+
+One can also use the function \Rfunction{plot} to display the graph.
+<<fig=TRUE>>=
+plot(uGraph$"path:00010","neato")
+@
+
+You can now see that each pathway of metabolic pathways is converted to a graph with enzymes as nodes. All graphs are saved in a list. each element in the list is a \Rclass{graph} and its name is pathway identifier.
+
+\subsection{Create a subGraph with a algorithm in concepts of graph}
+User can mine sub-pathways of metabolic pathways by using certain sub-graph mining methods. The code below gives a simple example of mining sub-pathways by using the function maxClique in RBGL package that can look for all the cliques in a graph. 
+<<>>=
+graphList<-getDefaultUndirectedGraph()
+graphList<-graphList[sapply(graphList,function(x) length(x)>0)]
+index<-0
+mySubGraph<-list()
+mySubNames<-character()
+for(i in 1:length(graphList)){
+         mc<-maxClique(graphList[[i]])
+         if(length(mc)>0){
+             for (j in 1:length(mc[[1]])) {
+                   index<-index+1
+                   mySubGraph[index]<-subGraph(mc[[1]][[j]],graphList[[i]])
+                   mySubNames[index]<-paste(names(graphList)[i],j,sep="_")
+             }
+        }
+}
+names(mySubGraph)<-mySubNames
+@
+After running the code, You can get a variable \Robject{mySubGraph}. a list of subgraph is saved in the variable. 
+
+We display a sub-graph in the list.
+<<fig=TRUE>>=
+mySubGraph[1]
+plot(mySubGraph[[1]],"neato")
+@
+You can now see that it is a clique in a graph and its name is path:00010\rule[-2pt]{1.5cm}{0.5pt}1. The name means that the graph is first subgraph of the pathway path:00010.
+\subsection{annotate genes to sub-pathways defined by yourself}
+After mining user-defined sub-pathways, you can easily annotate genes to these sub-pathways. 
+
+You can do:
+<<>>=
+geneList<-getAexample(k=100)
+ann<-getAnn(geneList,graphList=mySubGraph)
+printAnn(ann)[1:10,2:5]
+@
+
+You can also do:
+<<fig=TRUE>>=
+
+plotAnn("path:00361_2",mySubGraph,ann)
+@
+
+Of course, you can use other functions provided by the system.
+\end{document}
