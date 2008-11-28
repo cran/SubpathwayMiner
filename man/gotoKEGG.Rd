@@ -24,14 +24,14 @@ On these pictures, The red nodes represent the enzymes thats include the submitt
 library(Rgraphviz)
 geneList<-getAexample(k=100)
 ann<-getAnn(geneList)
-gotoKEGG("path:00010",ann)
+#gotoKEGG("path:00010",ann)
 
 
 ##visualize sub-pathways of metabolic pathways through linking to the KEGG web site.
 geneList<-getAexample(k=1000)
 subGraphList<-getKcSubGraph(k=4)
 ann<-getAnn(geneList,graphList=subGraphList)
-gotoKEGG("path:00010_1",ann)
+#gotoKEGG("path:00010_1",ann)
 }
 \keyword{ file }
 

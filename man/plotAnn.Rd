@@ -33,7 +33,7 @@ subGraphList<-getKcSubGraph(k=4)
 ann<-getAnn(geneList,graphList=subGraphList)
 plotAnn("path:00010_1",subGraphList,ann)
 #go to KEGG
-plotAnn("path:00010_1",subGraphList,ann,gotoKEGG=TRUE)
+#plotAnn("path:00010_1",subGraphList,ann,gotoKEGG=TRUE)
 }
 \keyword{ file }
 
