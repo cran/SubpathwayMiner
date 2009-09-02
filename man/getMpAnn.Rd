@@ -2,7 +2,7 @@
 \alias{getMpAnn}
 \title{get annotation informations of metabolic pathways}
 \description{
-  Annotate a set of genes to metabolic pathways.
+  Annotate a set of genes to metabolic pathways based on EC.
 }
 \usage{
   getMpAnn(geneList,background=getDefaultBackground(),

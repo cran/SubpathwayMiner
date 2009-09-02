@@ -1,9 +1,9 @@
 \name{ec2gene}
 \docType{data}
 \alias{ec2gene}
-\title{A list that maps Enzyme Commission numbers to gene identifiers}
+\title{A list that maps Enzyme Commission (EC) numbers to gene identifiers}
 \description{
-  A list that maps Enzyme Commission numbers to gene identifiers.
+  A list that maps Enzyme Commission (EC) numbers to gene identifiers.
 }
 
 \format{A list}

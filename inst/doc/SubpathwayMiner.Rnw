@@ -5,7 +5,7 @@
 %\VignetteIndexEntry{SubpathwayMiner Overview}
 %\VignetteKeywords{pathway}
 %\VignettePackage{SubpathwayMiner}
-%\VignetteDepends{RBGL,KEGG.db,fdrtool,Rgraphviz}
+%\VignetteDepends{RBGL,fdrtool,Rgraphviz}
 
 \documentclass[12pt]{article}
 
@@ -48,7 +48,7 @@ let us generate an example of gene sets:
 library(SubpathwayMiner)
 library(Rgraphviz)
 @ 
-get an example of gene sets.
+
 <<>>=
 geneList<-getAexample(k=100)
 geneList[1:10]
@@ -65,17 +65,21 @@ Display 10 rows and 4 columns of results.
 <<>>=
 result[1:10,2:5]
 @ 
-Annotate a set of genes to sub-pathways.
+Annotate a set of genes to sub-pathways of metabolic pathways based on enzyme commission (EC) numbers.
 <<>>=
 geneList<-getAexample(k=100)
 ann<-getKcsmpAnn(geneList,k=4)
 printAnn(ann)[1:10,2:5]
 @
+Annotate a set of genes to sub-pathways based on KEGG Orthology (KO) identifiers.
+<<>>=
+geneList<-getAexample(k=100)
+subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+ann<-getKOAnn(geneList,graphList=subGraphList)
+printAnn(ann)[1:10,2:5]
+@
 \section{Annotate genes to pathways}
-The function \Rfunction{getAnn} in the \Rpackage{SubpathwayMiner} package not only facilitates the annotation and identification of pathways but also sub-pathway annotation and identification of metabolic pathways. It can annotate a set of genes to entire pathways or sub-pathways of metabolic pathways by setting the 
-value of the argument \Rfunarg{graphList}. The return value of the function is a list of the annotated information.
-The list has eight elements: 'pathwayName', 'annGeneList', 'annGeneNumber', 'annBgNumber', 'geneNumber', 'bgNumber', 'pvalue', 
-'qvalue'. They represent pathway name, genes annotated to the pathway, number of genes annotated to the pathway, number of background 
+The function \Rfunction{getAnn} and \Rfunction{getKOAnn} in the \Rpackage{SubpathwayMiner} package not only facilitates the annotation and identification of pathways but also sub-pathway annotation and identification. It can annotate a set of genes to entire pathways or sub-pathways by setting the value of the argument \Rfunarg{graphList}. The return value of the function is a list of the annotated information.The list has eight elements: 'pathwayName', 'annGeneList', 'annGeneNumber', 'annBgNumber', 'geneNumber', 'bgNumber', 'pvalue', 'qvalue'. They represent pathway name, genes annotated to the pathway, number of genes annotated to the pathway, number of background 
 genes annoted to the pathway, number of genes in the study, number of background genes, p-value, and FDR-corrected q-value.
 
 \subsection{Annotate gene sets to entire pathways}
@@ -87,9 +91,9 @@ ann<-getAnn(geneList)
 ann[1:2]
 @
 
-\subsection{Annotate gene sets to sub-pathways of metabolic pathways}
-If the value of argument \Robject{graphList} is a list of subGraph, e.g., the return value of \Rfunction{getKcSubGraph}, these genes will be annotated to sub-pathways of metabolic network. 
-<<>>=
+\subsection{Annotate gene sets to sub-pathways of metabolic pathways based on enzyme commission (EC) }
+If the value of argument \Robject{graphList} is a list of subGraph, e.g., the return value of \Rfunction{getKcSubGraph}, these genes will be annotated to sub-pathways of metabolic pathways. 
+<<eval=FALSE>>=
 subGraphList<-getKcSubGraph(k=4)
 ann<-getAnn(geneList,graphList=subGraphList)
 @
@@ -97,6 +101,13 @@ we also provide a simple function for the sub-pathway annotation of metabolic pa
 <<>>=
 ann<-getKcsmpAnn(geneList,k=4)
 @
+\subsection{Annotate gene sets to sub-pathways based on KEGG Orthology (KO)}
+If the value of argument \Robject{graphList} is a list of subGraph, e.g., the return value of \Rfunction{getKcSubGraph} when setting arguments \Robject{graphList=getDefaultKOUndirectedGraph}, these genes will be annotated to sub-pathways based on KO. 
+<<eval=FALSE>>=
+subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+ann<-getKOAnn(geneList,graphList=subGraphList)
+@
+
 
 \subsection{Identify pathways or sub-pathways}
 Get the statistically signicantly enriched pathways according to pvalue.
@@ -109,15 +120,15 @@ printAnn(cutedAnn)[2:5]
 
 \section{Display and save results}
 \subsection{Use data frame to display results}
-To visualize the results, the list of results returned from the function \Rfunction{getAnn} can be converted to the \Robject{data.frame} by using the function \Rfunction{printAnn}. But, note that Compared with \Robject{data.frame}, the \Robject{list} provides more information, e.g., the annotated genes are saved in list, yet not in the data.frame. The row names data.frame are pathway identifiers, e.g, path:00010. It's   
+To visualize the results, the list of results returned from the function \Rfunction{getAnn} or \Rfunction{getKOAnn} can be converted to the \Robject{data.frame} by using the function \Rfunction{printAnn}. But, note that Compared with \Robject{data.frame}, the \Robject{list} provides more information, e.g., the annotated genes are saved in list, yet not in the data.frame. The row names data.frame are pathway identifiers, e.g, path:00010. It's   
 columns include pathwayName, annGeneRatio, annBgRatio, pvalue, qvalue. The annGeneRatio is the ratio of the annotated genes, e.g., 30/1000 means that 30 genes in 1000 genes are annotated. The qvalue is the FDR-corrected q-value.
-<<>>=
+<<eval=FALSE>>=
 ann<-getAnn(geneList)
 result<-printAnn(ann)
 result[1:10,2:5]
 @
 \subsection{Save annotation results to a tab-delimited file}
-One can easily save the annotation results to a tab-delimited file. Note that the argument \Rfunarg{col.names}=NA is essential..
+One can easily save the annotation results to a tab-delimited file. Note that the argument \Rfunarg{col.names}=NA is essential.
 <<eval=FALSE>>=
  geneList<-getAexample(k=1000)
  ann<-getAnn(geneList)
@@ -125,21 +136,33 @@ One can easily save the annotation results to a tab-delimited file. Note that th
  write.table(result,file="result",col.names=NA,sep="\t")
 @
 \section{Visualization of pathways}
-\subsection{Visualize sub-pathways using the function plotAnn}
-Users can use the function \Rfunction{plotAnn} to visualize the pathways or sub-pathways of metabolic pathways. The red nodes in the result graph represent the enzymes which include the submitted genes.
+\subsection{Visualize sub-pathways of metabolic pathways based on enzyme commission (EC) using the function plotAnn}
+Users can use the function \Rfunction{plotAnn} to visualize the pathways or sub-pathways of metabolic pathways based on ec. The red nodes in the result graph represent the enzymes which include the submitted genes.
 
 
-Visualize sub-pathways of metabolic pathways.
+Visualize sub-pathways of metabolic pathways based on EC.
 <<fig=TRUE>>=
 subGraphList<-getKcSubGraph(k=4)
 ann<-getAnn(geneList,graphList=subGraphList)
 plotAnn("path:00010_1",subGraphList,ann) 
 @
+\subsection{Visualize sub-pathways based on KEGG Orthology (KO) using the function plotKOAnn}
+Visualize sub-pathways based on KO.
+<<fig=TRUE>>=
+subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+ann<-getKOAnn(geneList,graphList=subGraphList)
+plotKOAnn("path:00010_1",subGraphList,ann) 
+@
 \subsection{Visualize pathways or sub-pathways through linking to KEGG web site}
-Visualize sub-pathways of metabolic pathways.
 <<eval=FALSE>>=
 subGraphList<-getKcSubGraph(k=4)
 ann<-getAnn(geneList,graphList=subGraphList)
+gotoKEGG("path:00010_1",ann)
+@
+%
+<<eval=FALSE>>=
+subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+ann<-getKOAnn(geneList,graphList=subGraphList)
 gotoKEGG("path:00010_1",ann)
 @
 %
@@ -213,8 +236,8 @@ plot(uGraph$"path:00010","neato")
 
 You can now see that each pathway of metabolic pathways is converted to a graph with enzymes as nodes. All graphs are saved in a list. each element in the list is a \Rclass{graph} and its name is pathway identifier.
 
-\subsection{Create a subGraph with a algorithm in concepts of graph}
-User can mine sub-pathways of metabolic pathways by using certain sub-graph mining methods. The code below gives a simple example of mining sub-pathways by using the function maxClique in RBGL package that can look for all the cliques in a graph. 
+\subsection{Create a subGraph with the algorithms based on the concepts of graph}
+Users can mine sub-pathways of metabolic pathways by using certain sub-graph mining methods. The code below gives a simple example of mining sub-pathways by using the function maxClique in RBGL package that can look for all the cliques in a graph. 
 <<>>=
 graphList<-getDefaultUndirectedGraph()
 graphList<-graphList[sapply(graphList,function(x) length(x)>0)]

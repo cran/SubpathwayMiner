@@ -1,9 +1,9 @@
 \name{ugraph}
 \docType{data}
 \alias{uGraph}
-\title{The undirected graph list constructed from KEGG metabolic pathways}
+\title{The undirected graph list based on enzyme commission (EC) numbers constructed from KEGG metabolic pathways}
 \description{
-  Undirected graph list constructed from KEGG pathways.
+  Undirected graph list based on enzyme commission (EC) numbers constructed from KEGG pathways.
 }
 \details{
  Generally, A metabolic pathway can be considered as a graph with chemical compounds as 
@@ -23,5 +23,5 @@ Nucleic Acids Res., 20, 4021-4028.
 }
 \format{A list of graph }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
-\seealso{\code{\link{uGraph}}}
+\seealso{\code{\link{dGraph}},\code{\link{KOuGraph}}}
 \keyword{ graphs }

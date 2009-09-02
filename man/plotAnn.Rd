@@ -1,8 +1,8 @@
 \name{plotAnn}
 \alias{plotAnn}
-\title{Visualize pathways or sub-pathways}
+\title{Visualize pathways or sub-pathways based on enzyme commission (EC) numbers }
 \description{
-Visualize pathways or sub-pathways.
+Visualize pathways or sub-pathways based on enzyme commission (EC) numbers.
 }
 \usage{
     plotAnn(pathway,graphList,ann,gotoKEGG=FALSE)
@@ -14,19 +14,19 @@ Visualize pathways or sub-pathways.
   \item{gotoKEGG}{An logical. Detailed informations is provided in the function \code{\link{gotoKEGG}}.}
 }
 \details{
-The function can visualize the pathways or sub-pathways of metabolic pathways. The red nodes in the result graph represent the enzymes which include the submitted genes.
+The function can visualize the pathways or sub-pathways of metabolic pathways based on enzyme commission (EC) numbers. The red nodes in the result graph represent the enzymes which include the submitted genes.
 }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
 \seealso{\code{\link{gotoKEGG}},\code{\link{getAnn}},\code{\link{printAnn}}}
 
 \examples{
-##visualize metabolic pathways 
+##visualize metabolic pathways based on enzyme commission (EC) numbers  
 library(Rgraphviz)
 geneList<-getAexample(k=1000)
 ann<-getAnn(geneList,graphList=getDefaultUndirectedGraph())
 plotAnn("path:00010",getDefaultUndirectedGraph(),ann)
 
-##visualize sub-pathways of metabolic pathways
+##visualize sub-pathways of metabolic pathways based on enzyme commission (EC) numbers 
 library(Rgraphviz)
 geneList<-getAexample(k=1000)
 subGraphList<-getKcSubGraph(k=4)

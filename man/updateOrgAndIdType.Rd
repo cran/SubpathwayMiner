@@ -17,7 +17,7 @@
 \details{
 The existing tools mainly use DBMS (data base management system) to store all data relative to analysis of pathways and the update process of the data is transparent to users, which means that the annotation results users get from these tools may become outdated. We don't use DBMS to store data. We present a new method that enables users to update data by themselves. Users are firstly required to set organism and type of gene identifier before annotateing genes to the pathways. According to the setting, the system can download all data relative to analysis of pathways in the certain organism, and then treat and store them in an environment variable in R. Through the method the system can synchronize the data with the KEGG databases and support almost all organisms and cross reference identifiers in the KEGG GENE database. 
 
-The function is able to update the variable \code{\link{gene2ec}} , \code{\link{ec2gene}} , \code{\link{gene2path}} and \code{\link{path2gene}}  and \code{\link{background}} in the environment variable. 
+The function is able to update the variable \code{\link{gene2ec}} , \code{\link{ec2gene}} , \code{\link{gene2KO}} , \code{\link{KO2gene}} , \code{\link{gene2path}} and \code{\link{path2gene}}  and \code{\link{background}} in the environment variable. 
 
 Note that if the user don't run the function \code{\link{updateOrgAndIdType}},\code{\link{loadKe2g}} after starting up R-system and loading the package of the system, then the defalut value of the argument \code{org} and \code{idType} is "hsa" (human) and "ncbi-geneid" (Entrez gene identifiers). The user can get the information from the return value of the funciton \code{\link{getOrgAndIdType}}.
 

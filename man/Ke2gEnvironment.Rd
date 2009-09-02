@@ -13,10 +13,7 @@
   \item{file}{ A character string.}
 }
 \details{
-  The functions are used to load or save the environment variable \code{\link{ke2g}} of the system. If one has changed the environment variable with some functions, e.g., 
-\code{\link{updateOrgAndIdType}} or \code{\link{updateGraphs}} and hope to use the setting in the future, then the functions can solve the problem
-. For example, one uses the function \code{saveKe2g} to save the environment variable. When one needs to use the setting next time, 
-one can use the function \code{\link{loadKe2g}} to load the last environment variable.
+  The functions are used to load or save the environment variable \code{\link{ke2g}} of the system. If one has changed the environment variable with some functions, e.g., \code{\link{updateOrgAndIdType}} or \code{\link{updateGraphs}} or \code{\link{updateKOGraphs}} and hope to use the setting in the future, then the functions can solve the problem. For example, one uses the function \code{saveKe2g} to save the environment variable. When one needs to use the setting next time, one can use the function \code{\link{loadKe2g}} to load the last environment variable.
 
   The functions implement the localization of the system. Therefore, the system not only implements  
 the most up-to-date annotations but also the localized annotations. The functions are very important for the user to frequently annotate genes 
@@ -31,7 +28,7 @@ In addition, the environment variables of organisms with well annotated genomes 
 
 }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
-\seealso{\code{\link{updateOrgAndIdType}},\code{\link{updateGraphs}}}
+\seealso{\code{\link{updateOrgAndIdType}},\code{\link{updateGraphs}},\code{\link{updateKOGraphs}}}
 
 \examples{
 ##for example 

@@ -14,11 +14,15 @@ getkidoid<-function(org,type2,path="ftp://ftp.genome.jp/pub/kegg/genes/organisms
       result[[2]]<-ogene2kgene 
       return(result)
 }
-getPathName<-function(file="map_title.tab",path="ftp://ftp.genome.jp/pub/kegg/pathway/"){  
-      list2<-scan(paste(path,file,sep="/"),what=list(left="",right=""),sep="\t")
-      id<-paste("path:",list2$left,sep="")  
+getPathName<-function(file="map_title.tab",path="ftp://ftp.genome.jp/pub/kegg/pathway_gif"){  
+      list2<-scan(paste(path,file,sep="/"),what=list(left="",right=""),quote="\"",sep="\t")
+      #id<-paste("path:",list2$left,sep="")  
+      id<-list2$left
       name<-list2$right
-      idname<-name
+      idname<-list()
+      for(i in 1:length(name)){
+        idname[[i]]<-name[i]
+      }
       names(idname)<-id
       as.list(idname)
       return(idname)

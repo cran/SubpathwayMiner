@@ -8,7 +8,7 @@
      printAnn(ann)
 }
 \arguments{
-  \item{ann}{ A list. The results returned from the function \code{\link{getAnn}}.}
+  \item{ann}{ A list. The results returned from the function \code{\link{getAnn}} or \code{\link{getKOAnn}}.}
 }
 \value{
   A data.frame of the annotation results. Its row names are pathway identifiers, 
@@ -19,7 +19,7 @@ e.g, path:00010. Columns include (pathwayName, annGeneRatio, annBgRatio, pvalue,
   The qvalue is the FDR-corrected q-value.
 }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
-\seealso{\code{\link{getAnn}},\code{\link{cutoffAnn}}}
+\seealso{\code{\link{getAnn}},\code{\link{getKOAnn}},\code{\link{cutoffAnn}}}
 
 \examples{
 ##get an example of gene list

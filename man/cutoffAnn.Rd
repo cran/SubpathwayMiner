@@ -3,7 +3,7 @@
 \title{Get the statistically significantly enriched pathways}
 \description{
   Get the statistically significantly enriched pathways 
-  according to the results returned from \code{\link{getAnn}} function.
+  according to the results returned from \code{\link{getAnn}} or \code{\link{getKOAnn}} function.
 }
 \usage{
      cutoffAnn(ann,type="pvalue",operate="<=",cutoff=0.01)
@@ -16,17 +16,17 @@
 }
 \details{
  The function is used to identify the statistically signicantly enriched pathways compared with a background distribution. If users
- don't input background gene list in the function \code{\link{getAnn}}, then background distribution will be obtained from the whole genome. 
+ don't input background gene list in the function \code{\link{getAnn}} or \code{\link{getKOAnn}}, then background distribution will be obtained from the whole genome. 
 
 }
 \value{
-  A list of annotation results. Detailed information is provided in \code{\link{getAnn}}.
+  A list of annotation results. Detailed information is provided in \code{\link{getAnn}} or \code{\link{getKOAnn}}.
 }
 \references{
 Strimmer,K. (2008). A unified approach to false discovery rate estimation.
 }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
-\seealso{\code{\link{getAnn}}, \code{\link{printAnn}}}
+\seealso{\code{\link{getAnn}},\code{\link{getKOAnn}}, \code{\link{printAnn}}}
 
 \examples{
 ##get an example of gene sets

@@ -13,6 +13,12 @@
 \alias{getOidFromKid}
 \alias{getPathName}
 \alias{getkidoid}
+\alias{isKOMPath}
+\alias{getKOPathGraph}
+\alias{getKONodes}
+\alias{getAllKOPathGraph}
+\alias{getKOMPathGraph}
+\alias{getAdjKOMID}
 \title{SubpathwayMiner internal functions}
 \description{
   These are functions internally called by other functions
@@ -37,7 +43,13 @@ getKidFromOid(oid)
 getOidFromKid(kid)
 getkidoid(org,type2,path="ftp://ftp.genome.jp/pub/kegg/genes/organisms")
 getPathName(file="map_title.tab",
-    path="ftp://ftp.genome.jp/pub/kegg/pathway/")
+    path="ftp://ftp.genome.jp/pub/kegg/pathway_gif")
+isKOMPath(top)
+getKOPathGraph(top)
+getKONodes(top)
+getAllKOPathGraph(fileList,path,verbose=TRUE)
+getKOMPathGraph(top)
+getAdjKOMID(KOID,top)
 }
 
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}

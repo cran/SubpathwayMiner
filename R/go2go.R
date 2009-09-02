@@ -40,6 +40,22 @@ getGeneFromEnzyme<-function(enzymeList){
       return(geneList)
 }
 #############################################################
+##new! get KO list from gene List
+getKOFromGene<-function(geneList){
+      if(!exists("ke2g")) initialize()
+      gene2KO<-get("gene2KO",envir=ke2g)
+      KOList<-unique(unlist(gene2KO[geneList]))
+      return(KOList)
+}
+#############################################################
+##new! get gene list from KO List
+getGeneFromKO<-function(KOList){
+      if(!exists("ke2g")) initialize()
+      KO2gene<-get("KO2gene",envir=ke2g)
+      geneList<-unique(unlist(KO2gene[KOList]))
+      return(geneList)
+}
+#############################################################
 ##get pathway list from gene list
 getPathwayFromGene<-function(geneList){
       if(!exists("ke2g")) initialize()
@@ -62,6 +78,15 @@ getDefaultMetabolicPathway<-function(){
       mpidList<-get("mpidList",envir=ke2g)
       return(mpidList)
 }
+#############################################################
+##new! get default KO pathway
+getDefaultKOPathway<-function(){
+      if(!exists("ke2g")) initialize()
+      kpidList<-get("kpidList",envir=ke2g)
+      #kpidList<-get("keggpathid2name",envir=ke2g)
+      #kpidList<-paste("path:",names(kpidList),sep="")
+      return(kpidList)
+}
 
 ####################################################################
 ##
@@ -83,6 +108,13 @@ getDefaultUndirectedGraph<-function(){
       if(!exists("ke2g")) initialize()
       uGraph<-get("uGraph",envir=ke2g)
       return(uGraph)       
+}
+#####################################################################
+##new!
+getDefaultKOUndirectedGraph<-function(){
+      if(!exists("ke2g")) initialize()
+      KOuGraph<-get("KOuGraph",envir=ke2g)
+      return(KOuGraph)       
 }
 #####################################################################
 getOrgAndIdType<-function(){

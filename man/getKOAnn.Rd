@@ -1,12 +1,12 @@
-\name{getAnn}
-\alias{getAnn}
-\title{Annotate a set of genes to pathways or sub-pathways based on enzyme commission (EC)}
+\name{getKOAnn}
+\alias{getKOAnn}
+\title{Annotate a set of genes to sub-pathways by using KEGG Orthology (KO)}
 \description{
-  Annotate a set of genes to pathways or sub-pathways based on enzyme commission (EC).
+  Annotate a set of genes to sub-pathways by using KEGG Orthology (KO).
 }
 \usage{
-  getAnn(geneList,background=getDefaultBackground(),
-   order="pvalue",decreasing=FALSE,graphList=getDefaultGraph())
+  getKOAnn(geneList,background=getDefaultBackground(),
+   order="pvalue",decreasing=FALSE,graphList)
 }
 \arguments{
   \item{geneList}{A character vector of genes. }
@@ -16,9 +16,9 @@
   \item{graphList}{A list. its elements may be a \code{graph-class} or a vector of charactor.} 
 }
 \details{
-The function can annotate a set of genes to pathways or sub-pathways and identify the statistically significantly enriched pathways.  
+The function can annotate a set of genes to sub-pathways and identify the statistically significantly enriched pathways.  
 
-The default value of the argument \code{graphList} is obtained from the function \code{\link{getDefaultGraph}}. It means that genes will be annotated to all pathway. If users hope to annotate genes to metabolic pathways or sub-pathways of metabolic pathways based on enzyme commission (EC), the value of \code{graphList} should be changed with the function \code{\link{getDefaultUndirectedGraph}} or \code{\link{getKcSubGraph}}.
+The value of \code{graphList} should be changed with the function \code{\link{getKcSubGraph}} by setting arguments \code{graphList=}\code{\link{getDefaultKOUndirectedGraph}}.
 
 Before you use the function, had better use the function \code{\link{getOrgAndIdType}} to get the type of current organism and gene identifiers from  the environment variable. If the value is different from the type of organism and gene identifier in your current study, you must change them by using the function \code{\link{updateOrgAndIdType}}, \code{\link{data}} or \code{\link{loadKe2g}}.
 
@@ -32,41 +32,25 @@ To visualize and save the results, the \code{list} can be converted to the \code
 
 }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
-\seealso{\code{\link{getKOAnn}},\code{\link{getMpAnn}}, \code{\link{getKcsmpAnn}},  \code{\link{cutoffAnn}}, \code{\link{printAnn}}}
+\seealso{\code{\link{getKcSubGraph}},\code{\link{getDefaultKOUndirectedGraph}}, \code{\link{getAnn}}, \code{\link{cutoffAnn}}, \code{\link{printAnn}},\code{\link{plotKOAnn}}}
 
 \examples{
-##get a set of genes
-geneList<-getAexample(k=1000)
-##get the annotated results
- ann<-getAnn(geneList)
-##print the annotation results to screen
- printAnn(ann)
 
-##get the details of the results
-#get the informations of the first pathway 
-ann[[1]]
-#get the informations of the pathway "path:00010" 
-ann[["path:00010"]]
-#get the genes annotated to the pathway "path:00010"
-ann[["path:00010"]]$"annGeneList"
+##annotate the genes to sub-pathway by using KEGG Orthology (KO).
+##get a set of genes
+geneList<-getAexample(k=100)
+#
+subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+#get the annotated results
+ann<-getKOAnn(geneList,graphList=subGraphList)
+#print the annotation results to screen
+result<-printAnn(ann)
+result[2:5]
 
 ##write the annotation results to tab delimited file. 
 #note that the argument col.names=NA is essential.
- geneList<-getAexample(k=1000)
- ann<-getAnn(geneList)
- result<-printAnn(ann)
  write.table(result,file="result",col.names=NA,sep="\t")
 
-##annotate the genes to the KEGG metabolic pathways based on enzyme commission (EC)
-geneList<-getAexample(k=1000)
-ann<-getAnn(geneList,graphList=getDefaultUndirectedGraph())
-printAnn(ann)[2:5]
-
-##annotate the genes to the sub-pathways of metabolic pathways based on enzyme commission (EC)
-geneList<-getAexample(k=1000)
-subGraphList<-getKcSubGraph(k=4,graphList=getDefaultUndirectedGraph())
-ann<-getAnn(geneList,graphList=subGraphList)
-printAnn(ann)[2:5]
 }
 \keyword{ file }
 

@@ -1,9 +1,9 @@
 \name{dgraph}
 \docType{data}
 \alias{dGraph}
-\title{Directed graph list constructed from KEGG metabolic pathways}
+\title{Directed graph list based on enzyme commission (EC) numbers constructed from KEGG metabolic pathways}
 \description{
-  Directed graph list constructed from KEGG metabolic pathways.
+  Directed graph list based on enzyme commission (EC) numbers constructed from KEGG metabolic pathways.
 }
 \details{
  Detailed information is provided in \code{\link{uGraph}}.

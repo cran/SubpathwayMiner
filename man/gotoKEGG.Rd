@@ -13,7 +13,7 @@
 
 }
 \details{
-On these pictures, The red nodes represent the enzymes thats include the submitted genes.
+On these pictures, The red nodes represent the enzymes (or KOs) thats include the submitted genes.
 .
 }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
@@ -27,10 +27,16 @@ ann<-getAnn(geneList)
 #gotoKEGG("path:00010",ann)
 
 
-##visualize sub-pathways of metabolic pathways through linking to the KEGG web site.
+##visualize sub-pathways of metabolic pathways based on enzyme commission (EC) numbers through linking to the KEGG web site.
 geneList<-getAexample(k=1000)
 subGraphList<-getKcSubGraph(k=4)
 ann<-getAnn(geneList,graphList=subGraphList)
+#gotoKEGG("path:00010_1",ann)
+
+##visualize sub-pathways sub-pathways based on KEGG Orthology (KO) identifiers through linking to the KEGG web site.
+geneList<-getAexample(k=100)
+subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+ann<-getKOAnn(geneList,graphList=subGraphList)
 #gotoKEGG("path:00010_1",ann)
 }
 \keyword{ file }
