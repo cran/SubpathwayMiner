@@ -30,6 +30,7 @@ If users don't set the argument \code{background}, the background distribution w
 
 To visualize and save the results, the \code{list} can be converted to the \code{data.frame} by the function \code{\link{printAnn}}. But, note that, compared with \code{data.frame}, the \code{list} provides more information, e.g., the annotated genes are saved in the \code{list},yet not in the \code{data.frame}.
 
+note that \code{geneList} submitted by users must be a 'character' vector.
 }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
 \seealso{\code{\link{getKOAnn}},\code{\link{getMpAnn}}, \code{\link{getKcsmpAnn}},  \code{\link{cutoffAnn}}, \code{\link{printAnn}}}
@@ -62,11 +63,19 @@ geneList<-getAexample(k=1000)
 ann<-getAnn(geneList,graphList=getDefaultUndirectedGraph())
 printAnn(ann)[2:5]
 
-##annotate the genes to the sub-pathways of metabolic pathways based on enzyme commission (EC)
+
+##annotate the genes to the sub-pathways of metabolic 
+##  pathways based on enzyme commission (EC)
 geneList<-getAexample(k=1000)
 subGraphList<-getKcSubGraph(k=4,graphList=getDefaultUndirectedGraph())
 ann<-getAnn(geneList,graphList=subGraphList)
 printAnn(ann)[2:5]
+
+
+##visualize sub-pathways based on enzyme commission (EC)
+plotAnn("path:00010_1",subGraphList,ann)
+#go to KEGG
+#plotAnn("path:00010_1",subGraphList,ann,gotoKEGG=TRUE)
 }
 \keyword{ file }
 

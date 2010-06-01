@@ -23,9 +23,9 @@ The function can implement the annotation and identification of metabolic pathwa
 
 \examples{
 ##annotate a set of genes to metabolic pathways
- geneList<-getAexample(k=1000)
- ann<-getMpAnn(geneList)
- printAnn(ann)
+# geneList<-getAexample(k=1000)
+# ann<-getMpAnn(geneList)
+# printAnn(ann)
 
 }
 \keyword{ file }

@@ -21,11 +21,11 @@ The function can visualize the pathways or sub-pathways based on KEGG Orthology 
 
 \examples{
 ##visualize sub-pathways based on KEGG Orthology (KO)
-library(Rgraphviz)
-geneList<-getAexample(k=100)
-subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
-ann<-getKOAnn(geneList,graphList=subGraphList)
-plotKOAnn("path:00010_1",subGraphList,ann)
+#library(Rgraphviz)
+#geneList<-getAexample(k=100)
+#subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+#ann<-getKOAnn(geneList,graphList=subGraphList)
+#plotKOAnn("path:00010_1",subGraphList,ann)
 #go to KEGG
 #plotKOAnn("path:00010_1",subGraphList,ann,gotoKEGG=TRUE)
 }

@@ -1,18 +1,21 @@
 .first.lib<-function(lib, pkgname){
   #library.dynam(pkgname, pkgname, lib)
-  initialize()   
+  initialize_ke2g()
+  #data("hsa_ncbi-geneid");
+
 }
 ########################################################################
 ##initialize data
-initialize<-function(){
-      data("hsa_ncbi-geneid")
+initialize_ke2g<-function(){
+      #assign("ke2g",new.env(parent=globalenv()),envir=.GlobalEnv)
+      data("hsa_ncbi-geneid");
 }
 
 ##########################################################################
 ##update setting
 updateOrgAndIdType<-function(org="hsa",idType="ncbi-geneid",
   path="ftp://ftp.genome.jp/pub/kegg/genes/organisms",verbose=TRUE){
-       if(!exists("ke2g")) initialize()
+       if(!exists("ke2g")) initialize_ke2g()
       if(verbose==TRUE){
       print("Note that the programming is time consumming!!!!!!!!!!!!!!")  
       print("download and treat  cross reference identifiers....................")
@@ -47,7 +50,7 @@ updateOrgAndIdType<-function(org="hsa",idType="ncbi-geneid",
 updateGraphs<-function(pathwayList=getDefaultMetabolicPathway(),
          path="ftp://ftp.genome.jp/pub/kegg/release/archive/kgml/KGML_v0.6.1/map",verbose=TRUE){
       library(XML)
-      if(!exists("ke2g")) initialize()
+      if(!exists("ke2g")) initialize_ke2g()
       #assign("keggpathid2name",getPathName(),envir=ke2g)
       fileList<-paste("map",substring(pathwayList,6),".xml",sep="")     
       uGraph<-getAllPathGraph(fileList,path,"undirected",verbose)
@@ -61,9 +64,9 @@ updateGraphs<-function(pathwayList=getDefaultMetabolicPathway(),
 ###########################################################################
 ##new! updateKOGraph
 updateKOGraphs<-function(pathwayList=getDefaultKOPathway(),
-         path="ftp://ftp.genome.jp/pub/kegg/xml/ko/",verbose=TRUE){
+         path="ftp://ftp.genome.jp/pub/kegg/release/archive/kgml/KGML_v0.6.1/ko",verbose=TRUE){
       library(XML)
-      if(!exists("ke2g")) initialize()
+      if(!exists("ke2g")) initialize_ke2g()
       #assign("keggpathid2name",getPathName(),envir=ke2g)
       fileList<-paste("ko",substring(pathwayList,6),".xml",sep="")     
       KOuGraph<-getAllKOPathGraph(fileList,path,verbose)
@@ -77,19 +80,21 @@ updateKOGraphs<-function(pathwayList=getDefaultKOPathway(),
 ###########################################################################
 ##save ke2g environment
 saveKe2g<-function(file="ke2g.rda"){
-      if(!exists("ke2g")) initialize()
+      if(!exists("ke2g")) initialize_ke2g()
+      pathclass<-data("pathwayClass")
+      assign("pathwayClass",envir=ke2g)
       save(ke2g,file=file)
 }
 ###########################################################################
 ##load ke2g environment
 loadKe2g<-function(file="ke2g.rda"){
-      if(!exists("ke2g")) initialize()
+      if(!exists("ke2g")) initialize_ke2g()
       load(ke2g,file=file)
 }
 ###########################################################################
 ##load ke2g environment
 getAexample<-function(k=1000){
-   if(!exists("ke2g")) initialize()
+   if(!exists("ke2g")) initialize_ke2g()
    gene2path<-get("gene2path",envir=ke2g)
    if(k<=length(gene2path))
    geneList<-names(gene2path)[1:k]

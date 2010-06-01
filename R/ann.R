@@ -3,13 +3,17 @@
 ##get annotation
 getAnn<-function(geneList,background=getDefaultBackground(),
    order="pvalue",decreasing=FALSE,graphList=getDefaultGraph()){
-      if(!exists("ke2g")) initialize()
+      if(typeof(geneList)!="character"){
+	  print("warning: your geneList must be 'character' vector. Because the type of your current geneList is not correct, it has been conveted arbitrarily using the function as.character().")
+	  as.character(geneList)
+	  }
+      if(!exists("ke2g")) initialize_ke2g()
       graphList<-graphList[sapply(graphList,function(x) length(x)>0)]     
       keggpathid2name<-get("keggpathid2name",envir=ke2g)
 
       annList<-list()
       for(i in 1:length(graphList)){
-            ann<-list(pathwayName="not known",annGeneList=character(),annGeneNumber=0,
+            ann<-list(pathwayName="not known",annGeneList=character(),annBgGeneList=character(),annGeneNumber=0,
                       annBgNumber=0,geneNumber=0,bgNumber=0,pvalue=1,qvalue=1)
             if(class(graphList[[i]])=="character"){
                   graphGeneList<-graphList[[i]]
@@ -25,6 +29,7 @@ getAnn<-function(geneList,background=getDefaultBackground(),
             if(length(pathwayName)!=0)
                 ann$pathwayName<-pathwayName
             ann$annGeneList<-annotatedGeneList   
+            ann$annBgGeneList<-annotatedBackgroundList
          
             ann$annGeneNumber<-length(annotatedGeneList)
             ann$annBgNumber<-length(annotatedBackgroundList)
@@ -85,7 +90,8 @@ cutoffAnn<-function(ann,type="pvalue",operate="<=",cutoff=0.01){
 
 #####################################################################
 ##print Ann
-printAnn<-function(ann){
+printAnn<-function(ann,detail=FALSE){
+	  if(detail==FALSE){
       pathwayName<-sapply(ann,function(x) x$pathwayName)
       annGeneRatio<-sapply(ann,function(x) paste(x$annGeneNumber,x$geneNumber,sep="/"))
       annBgRatio<-sapply(ann,function(x) paste(x$annBgNumber,x$bgNumber,sep="/"))
@@ -93,6 +99,19 @@ printAnn<-function(ann){
       qvalue<-sapply(ann,function(x) x$qvalue)
       ann.data.frame<-as.data.frame(cbind(pathwayName,annGeneRatio,
                              annBgRatio,pvalue,qvalue))
+	  }
+	  else{	  
+	  pathwayName<-sapply(ann,function(x) x$pathwayName)
+	  annGeneList<-sapply(ann, function(x){ paste(x$annBgGeneList,collapse=";") })
+      annBgGeneList<-sapply(ann, function(x){ paste(x$annBgGeneList,collapse=";")})
+	  annGeneRatio<-sapply(ann,function(x) paste(x$annGeneNumber,x$geneNumber,sep="/"))
+      annBgRatio<-sapply(ann,function(x) paste(x$annBgNumber,x$bgNumber,sep="/"))
+      pvalue<-sapply(ann,function(x) x$pvalue)
+      qvalue<-sapply(ann,function(x) x$qvalue)
+      ann.data.frame<-as.data.frame(cbind(pathwayName,annGeneRatio,
+                             annBgRatio,pvalue,qvalue,annGeneList,annBgGeneList))
+							 
+	  }
       return(ann.data.frame)
 }
 

@@ -6,7 +6,7 @@
 }
 \usage{
    updateGraphs(pathwayList=getDefaultMetabolicPathway(),
-               path="ftp://ftp.genome.jp/pub/kegg/release/archive/kgml/KGML_v0.6.1/map",verbose=TRUE)
+ path="ftp://ftp.genome.jp/pub/kegg/release/archive/kgml/KGML_v0.6.1/map",verbose=TRUE)
 }
 \arguments{
   \item{pathwayList}{A character vector of the KEGG metabolic pathway identifiers.}

@@ -333,7 +333,11 @@ getAdjKOMID<-function(KOID,top){
 ##get KO sub-pathway annotation
 getKOAnn<-function(geneList,background=getDefaultBackground(),
    order="pvalue",decreasing=FALSE,graphList){
-      if(!exists("ke2g")) initialize()
+      if(typeof(geneList)!="character"){
+	  print("warning: your geneList must be 'character' vector. Because the type of your current geneList is not correct, it has been conveted arbitrarily using the function as.character().")
+	  as.character(geneList)
+	  }
+      if(!exists("ke2g")) initialize_ke2g()
       #subGraph<-getKcSubGraph(k,graphList)
       graphList<-graphList[sapply(graphList,function(x) length(x)>0)]     
       keggpathid2name<-get("keggpathid2name",envir=ke2g)
@@ -341,7 +345,7 @@ getKOAnn<-function(geneList,background=getDefaultBackground(),
       annList<-list()
       for(i in 1:length(graphList)){
             ann<-list(pathwayName="not known",annGeneList=character(),annGeneNumber=0,
-                      annBgNumber=0,geneNumber=0,bgNumber=0,pvalue=1,qvalue=1)
+                      annBgGeneList=character(),annBgNumber=0,geneNumber=0,bgNumber=0,pvalue=1,qvalue=1)
             
                   graphGeneList<-getGeneFromKO(nodes(graphList[[i]]))         
                       
@@ -355,6 +359,7 @@ getKOAnn<-function(geneList,background=getDefaultBackground(),
             ann$annGeneList<-annotatedGeneList   
          
             ann$annGeneNumber<-length(annotatedGeneList)
+			  ann$annBgGeneList<-annotatedBackgroundList
             ann$annBgNumber<-length(annotatedBackgroundList)
 
             ann$geneNumber<-length(geneList)

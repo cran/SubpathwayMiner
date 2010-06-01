@@ -6,7 +6,7 @@
 }
 \usage{
      updateOrgAndIdType(org="hsa",idType="ncbi-geneid",
-           path="ftp://ftp.genome.jp/pub/kegg/genes/organisms",verbose=TRUE)
+   path="ftp://ftp.genome.jp/pub/kegg/genes/organisms",verbose=TRUE)
 }
 \arguments{
   \item{org}{A character string. The abbreviation of a genome name.}

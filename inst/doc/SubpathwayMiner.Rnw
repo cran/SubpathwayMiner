@@ -74,9 +74,9 @@ printAnn(ann)[1:10,2:5]
 Annotate a set of genes to sub-pathways based on KEGG Orthology (KO) identifiers.
 <<>>=
 geneList<-getAexample(k=100)
-subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
-ann<-getKOAnn(geneList,graphList=subGraphList)
-printAnn(ann)[1:10,2:5]
+subGraphListKO<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+annKO<-getKOAnn(geneList,graphList=subGraphListKO)
+printAnn(annKO)[1:10,2:5]
 @
 \section{Annotate genes to pathways}
 The function \Rfunction{getAnn} and \Rfunction{getKOAnn} in the \Rpackage{SubpathwayMiner} package not only facilitates the annotation and identification of pathways but also sub-pathway annotation and identification. It can annotate a set of genes to entire pathways or sub-pathways by setting the value of the argument \Rfunarg{graphList}. The return value of the function is a list of the annotated information.The list has eight elements: 'pathwayName', 'annGeneList', 'annGeneNumber', 'annBgNumber', 'geneNumber', 'bgNumber', 'pvalue', 'qvalue'. They represent pathway name, genes annotated to the pathway, number of genes annotated to the pathway, number of background 
@@ -98,14 +98,14 @@ subGraphList<-getKcSubGraph(k=4)
 ann<-getAnn(geneList,graphList=subGraphList)
 @
 we also provide a simple function for the sub-pathway annotation of metabolic pathways.
-<<>>=
+<<eval=FALSE>>=
 ann<-getKcsmpAnn(geneList,k=4)
 @
 \subsection{Annotate gene sets to sub-pathways based on KEGG Orthology (KO)}
 If the value of argument \Robject{graphList} is a list of subGraph, e.g., the return value of \Rfunction{getKcSubGraph} when setting arguments \Robject{graphList=getDefaultKOUndirectedGraph}, these genes will be annotated to sub-pathways based on KO. 
 <<eval=FALSE>>=
-subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
-ann<-getKOAnn(geneList,graphList=subGraphList)
+subGraphListKO<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+annKO<-getKOAnn(geneList,graphList=subGraphListKO)
 @
 
 
@@ -148,10 +148,13 @@ plotAnn("path:00010_1",subGraphList,ann)
 @
 \subsection{Visualize sub-pathways based on KEGG Orthology (KO) using the function plotKOAnn}
 Visualize sub-pathways based on KO.
+<<eval=FALSE>>=
+geneList<-getAexample(k=1000)
+subGraphListKO<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+annKO<-getKOAnn(geneList,graphList=subGraphListKO)
+@
 <<fig=TRUE>>=
-subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
-ann<-getKOAnn(geneList,graphList=subGraphList)
-plotKOAnn("path:00010_1",subGraphList,ann) 
+plotKOAnn("path:00010_1",subGraphListKO,annKO) 
 @
 \subsection{Visualize pathways or sub-pathways through linking to KEGG web site}
 <<eval=FALSE>>=
@@ -161,9 +164,9 @@ gotoKEGG("path:00010_1",ann)
 @
 %
 <<eval=FALSE>>=
-subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
-ann<-getKOAnn(geneList,graphList=subGraphList)
-gotoKEGG("path:00010_1",ann)
+subGraphListKO<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+annKO<-getKOAnn(geneList,graphList=subGraphListKO)
+gotoKEGG("path:00010_1",annKO)
 @
 %
 Visualize pathways.
@@ -276,9 +279,40 @@ printAnn(ann)[1:10,2:5]
 
 You can also do:
 <<fig=TRUE>>=
-
 plotAnn("path:00361_2",mySubGraph,ann)
 @
 
 Of course, you can use other functions provided by the system.
+
+\section{The extensive application of SubpathwayMiner}
+\subsection{Construct human disease-metabolic subpathway networks}
+The function is used to construct a disease-metabolic subpathway network(DMSPN) in which nodes represent diseases or metabolic subpathways and they are connected by an edge if genes of the disease are significantly enriched to the metabolic subpathways. We used the k-cliques subpathway identification method provided by the package to identify statistically significantly enriched disease-causing subpathways. After inputting gene sets (e.g. lung cancer) and distance parameter k, the k-clique method can mine each metabolic subpathway and then identify statistically significantly enriched subpathways. The following describes the step-by-step method for identifying metabolic subpathways. First, each metabolic pathway is converted to an undirected graph with enzymes as nodes. Enzymes in a graph are connected by an edge if their corresponding reactions have a common compound. Secondly, according to parameter k, all sub-pathways (k-cliques) in metabolic pathways can be constructed using k-cliques algorithm on each above graph. For each subpathway (k-clique), distance among all enzymes within it is no greater than the parameter k (a user-defined distance). Gene sets can then be annotated to these subpathways through assigning EC numbers for them and matching them to these subpathways. Finally, the significantly enriched subpathways can be identified using hypergeometric test.To construct disease-metabolic subpathway network (DMSPN), The disease-causing gene sets need to be used to identify enriched disease-causing subpathways. Then, for each disease, the statistically significantly enriched subpathways were identified by the k-cliques subpathway identification method. Finally, the disease-metabolic subpathway network can be constructed. 
+  As an example, the data used by us are obtained from the GAD(Genetic Association Database), which consist of diseases, disease-causing genes (NCBI-geneid), categories (disease classes) that the diseases belong to. The GAD is an NIH supported gene-centered public repository of human association studies examing a wide range of human diseases, including non-mendelian common diseases. 
+  Note that, because the function \Rfunction{generateNetwork} is time consuming, the argument \Robject{exampleNumber} is used to generate an example of network, which includes the given disease number \Robject{exampleNumber}. The default value of \Robject{exampleNumber} is -1, meaning that all disease data will be treated. The arguments \Robject{pvalue} and \Robject{geneNumber} are important for the size of network. For example, if we set up pvalue=0.001 and geneNumber=3, then disease-subpathway associations with p>=0.001 will be ignored, and those subpathways, within which the disease gene number is less than 3, will be also ignored. 
+
+  Construct disease-metabolic subpathway networks. Only four diseases are treated as an example of using the function generateNetwork to generate networks.
+<<>>=
+data("inData")
+DMSPN<-generateNetwork(Dise2G,k=3,pvalue=0.005,geneNumber=0,diseCate=TRUE,pathClass=TRUE,exampleNumber=4,verbose=FALSE)
+DMSPN[1:5,]
+@
+  Save the network as .txt file.
+<<eval=FALSE>>=
+write.table(DMSPN,"DMSPN.txt",row.names=FALSE,sep="\t")
+@
+  The disease-subpathway associations with p>=0.001 are ignored, and those subpathways, within which the disease gene number is less than 3, are also ignored.
+<<eval=FALSE>>=
+DMSPN<-generateNetwork(Dise2G,k=4,pvalue=0.001,geneNumber=3,exampleNumber=4)
+@
+  Construct networks with disease class and pathway class. 
+<<eval=FALSE>>=
+DMSPN<-generateNetwork(Dise2G,diseCate=TRUE,pathClass=TRUE,exampleNumber=4)
+@
+
+<<eval=FALSE>>=
+##all diseases are treated
+#data("inData")
+#DMSPN<-generateNetwork(Dise2G,exampleNumber=-1)
+@
+
 \end{document}

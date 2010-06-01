@@ -8,7 +8,7 @@
 \alias{getMerge}
 \alias{getMerge1}
 \alias{buildBgGeneList}
-\alias{initialize}
+\alias{initialize_ke2g}
 \alias{getKidFromOid}
 \alias{getOidFromKid}
 \alias{getPathName}
@@ -19,6 +19,7 @@
 \alias{getAllKOPathGraph}
 \alias{getKOMPathGraph}
 \alias{getAdjKOMID}
+\alias{printDiseAnn}
 \title{SubpathwayMiner internal functions}
 \description{
   These are functions internally called by other functions
@@ -38,7 +39,7 @@ getMerge1(org="hsa",type1="pathway",type2="ncbi-geneid",
     path="ftp://ftp.genome.jp/pub/kegg/genes/organisms")
 buildBgGeneList(org="hsa",type2="ncbi-geneid",
     path="ftp://ftp.genome.jp/pub/kegg/genes/organisms")
-initialize()
+initialize_ke2g()
 getKidFromOid(oid)
 getOidFromKid(kid)
 getkidoid(org,type2,path="ftp://ftp.genome.jp/pub/kegg/genes/organisms")
@@ -50,6 +51,7 @@ getKONodes(top)
 getAllKOPathGraph(fileList,path,verbose=TRUE)
 getKOMPathGraph(top)
 getAdjKOMID(KOID,top)
+printDiseAnn(ann,diseCate,pathClass)
 }
 
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}

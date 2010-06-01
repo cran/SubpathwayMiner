@@ -30,6 +30,7 @@ If users don't set the argument \code{background}, the background distribution w
 
 To visualize and save the results, the \code{list} can be converted to the \code{data.frame} by the function \code{\link{printAnn}}. But, note that, compared with \code{data.frame}, the \code{list} provides more information, e.g., the annotated genes are saved in the \code{list},yet not in the \code{data.frame}.
 
+note that \code{geneList} submitted by users must be a 'character' vector.
 }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
 \seealso{\code{\link{getKcSubGraph}},\code{\link{getDefaultKOUndirectedGraph}}, \code{\link{getAnn}}, \code{\link{cutoffAnn}}, \code{\link{printAnn}},\code{\link{plotKOAnn}}}
@@ -41,11 +42,19 @@ To visualize and save the results, the \code{list} can be converted to the \code
 geneList<-getAexample(k=100)
 #
 subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+
 #get the annotated results
 ann<-getKOAnn(geneList,graphList=subGraphList)
+
 #print the annotation results to screen
 result<-printAnn(ann)
 result[2:5]
+
+##visualize sub-pathways based on KEGG Orthology (KO)
+plotKOAnn("path:00010_1",subGraphList,ann)
+
+#go to KEGG
+#plotKOAnn("path:00010_1",subGraphList,ann,gotoKEGG=TRUE)
 
 ##write the annotation results to tab delimited file. 
 #note that the argument col.names=NA is essential.

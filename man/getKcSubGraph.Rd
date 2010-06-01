@@ -29,24 +29,29 @@ Huber,W., Carey,V.J., Long,L., Falcon,S. and Gentleman,R. (2007) Graphs in molec
 
 \examples{
 ##get graph representation of metabolic pathways
- graphList<-getDefaultUndirectedGraph()
-#get all 4-clique subgraphs
- subGraphList<-getKcSubGraph(k=4,graphList)
-#display first subGraph 
- library(Rgraphviz)
- plot(subGraphList[[1]])
+graphList<-getDefaultUndirectedGraph()
 
-##annotate a set of genes to the sub-pathways of metabolic pathways by using enzyme commission (EC) numbers.
-geneList<-getAexample(k=1000)
-subGraphList<-getKcSubGraph(k=4)
-ann<-getAnn(geneList,graphList=subGraphList)
-printAnn(ann)
+#get all 4-clique subgraphs
+subGraphList<-getKcSubGraph(k=4,graphList)
+
+#display first subGraph 
+library(Rgraphviz)
+plot(subGraphList[[1]])
+
+
+
+##annotate a set of genes to the sub-pathways of metabolic pathways 
+##   by using enzyme commission (EC) numbers.
+#geneList<-getAexample(k=1000)
+#subGraphList<-getKcSubGraph(k=4)
+#ann<-getAnn(geneList,graphList=subGraphList)
+#printAnn(ann)
 
 ##annotate the genes to sub-pathway by using KEGG Orthology (KO).
-geneList<-getAexample(k=100)
-subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
-ann<-getKOAnn(geneList,graphList=subGraphList)
-printAnn(ann)[2:5]
+#geneList<-getAexample(k=100)
+#subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+#ann<-getKOAnn(geneList,graphList=subGraphList)
+#printAnn(ann)[2:5]
 
 }
 \keyword{ file }

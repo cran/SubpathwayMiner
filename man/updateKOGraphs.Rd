@@ -6,7 +6,7 @@
 }
 \usage{
 updateKOGraphs(pathwayList=getDefaultKOPathway(),
-         path="ftp://ftp.genome.jp/pub/kegg/xml/ko/",verbose=TRUE)
+         path="ftp://ftp.genome.jp/pub/kegg/release/archive/kgml/KGML_v0.6.1/ko",verbose=TRUE)
 }
 \arguments{
   \item{pathwayList}{A character vector of the KEGG pathway identifiers.}
@@ -16,7 +16,7 @@ updateKOGraphs(pathwayList=getDefaultKOPathway(),
 \details{
 The function is able to update the graph variable \code{\link{KOuGraph}} in the environment variable of the system. 
 
- We construct and update the simplification version by extracting relations from the XML data of pathways. The XML data is available from the FTP site. \url{ftp://ftp.genome.jp/pub/kegg/xml/ko/}
+ We construct and update the simplification version by extracting relations from the XML data of pathways. The XML data is available from the FTP site. \url{ftp://ftp.genome.jp/pub/kegg/release/archive/kgml/KGML_v0.6.1/ko}
 
 The argument \code{pathwayList} is a character vector of the KEGG metabolic pathway identifiers. The default value is provided by the return value of \code{\link{getDefaultKOPathway}}. The user can change the value for constructing the subset of the graphs of the KEGG pathways.
 
