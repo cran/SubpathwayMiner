@@ -29,6 +29,8 @@ Strimmer,K. (2008). A unified approach to false discovery rate estimation.
 \seealso{\code{\link{getAnn}},\code{\link{getKOAnn}}, \code{\link{printAnn}}}
 
 \examples{
+\dontrun{
+
 ##get an example of gene sets
 geneList<-getAexample(k=1000)
 
@@ -41,6 +43,7 @@ geneList<-getAexample(k=1000)
 ##print results to screen
  printAnn(cutedAnn)
 
+}
 }
 \keyword{ file }
 

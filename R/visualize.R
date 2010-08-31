@@ -3,15 +3,15 @@
 plotAnn<-function(pathway,graphList,ann,gotoKEGG=FALSE){
      require(Rgraphviz)
    
-     nAttrs<-list()
-      geneList<-ann[[pathway]]$annGeneList
+      nAttrs<-list()
+      geneList<-ann[[pathway]]$annGeneList	  
       ecList<-getEnzymeFromGene(geneList)
       z<-rep("red",length(ecList))
       names(z)<-ecList
       nAttrs$color<-z
       plot(graphList[[pathway]],"neato",nodeAttrs=nAttrs)
       if(gotoKEGG==TRUE){
-      kgeneList<-getKidFromOid(geneList)
+      kgeneList<-substring(getKGeneFromGene(geneList),5)
       org<-getOrgAndIdType()[1]
       pathwayId<-substring(pathway,6,10)  
 	  temp<- paste ( c ( paste ( org , pathwayId , sep = "" ) , kgeneList ) , sep = "" , collapse = "+" )
@@ -32,7 +32,7 @@ plotKOAnn<-function(pathway,graphList,ann,gotoKEGG=FALSE){
       nAttrs$color<-z
       plot(graphList[[pathway]],"neato",nodeAttrs=nAttrs)
       if(gotoKEGG==TRUE){
-      kgeneList<-getKidFromOid(geneList)
+      kgeneList<-substring(getKGeneFromGene(geneList),5)
       org<-getOrgAndIdType()[1]
       pathwayId<-substring(pathway,6,10)  
 	  temp<- paste ( c ( paste ( org , pathwayId , sep = "" ) , kgeneList ) , sep = "" , collapse = "+" )
@@ -44,7 +44,7 @@ plotKOAnn<-function(pathway,graphList,ann,gotoKEGG=FALSE){
 ##go to html
 gotoKEGG<-function(pathway,ann){
       geneList<-ann[[pathway]]$annGeneList
-      kgeneList<-getKidFromOid(geneList)
+      kgeneList<-substring(getKGeneFromGene(geneList),5)
       org<-getOrgAndIdType()[1]
       pathwayId<-substring(pathway,6,10)  
 	  temp<- paste ( c ( paste ( org , pathwayId , sep = "" ) , kgeneList ) , sep = "" , collapse = "+" )

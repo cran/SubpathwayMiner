@@ -25,6 +25,8 @@ e.g, path:00010. Columns include (pathwayName, annGeneRatio, annBgRatio, pvalue,
 \seealso{\code{\link{getAnn}},\code{\link{getKOAnn}},\code{\link{cutoffAnn}}}
 
 \examples{
+\dontrun{
+
 ##get an example of gene list
 geneList<-getAexample(k=1000)
 
@@ -52,6 +54,8 @@ result[,c(4,3,2,5)]
 ## write the annotation results with gene lists.
  result<-printAnn(ann,detail=TRUE)
  write.table(result,file="result",col.names=NA,sep="\t")
+ 
+}
 }
 \keyword{ file }
 

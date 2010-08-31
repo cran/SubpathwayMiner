@@ -17,7 +17,7 @@ The default undirected graph based on KEGG Orthology is obtained from the variab
 
 \examples{
 
-getDefaultKOUndirectedGraph()
+KOuGraph<-getDefaultKOUndirectedGraph()
 
 }
 \keyword{ file }

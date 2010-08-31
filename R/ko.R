@@ -332,10 +332,10 @@ getAdjKOMID<-function(KOID,top){
 ####################################################################
 ##get KO sub-pathway annotation
 getKOAnn<-function(geneList,background=getDefaultBackground(),
-   order="pvalue",decreasing=FALSE,graphList){
+   order="pvalue",decreasing=FALSE,graphList=getDefaultKOUndirectedGraph()){
       if(typeof(geneList)!="character"){
 	  print("warning: your geneList must be 'character' vector. Because the type of your current geneList is not correct, it has been conveted arbitrarily using the function as.character().")
-	  as.character(geneList)
+	  geneList<-as.character(geneList)
 	  }
       if(!exists("ke2g")) initialize_ke2g()
       #subGraph<-getKcSubGraph(k,graphList)

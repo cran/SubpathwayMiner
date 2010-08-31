@@ -20,6 +20,8 @@ The function can visualize the pathways or sub-pathways of metabolic pathways ba
 \seealso{\code{\link{gotoKEGG}},\code{\link{getAnn}},\code{\link{printAnn}}}
 
 \examples{
+\dontrun{
+
 ##visualize metabolic pathways based on enzyme commission (EC) numbers  
 library(Rgraphviz)
 geneList<-getAexample(k=1000)
@@ -27,13 +29,15 @@ ann<-getAnn(geneList,graphList=getDefaultUndirectedGraph())
 plotAnn("path:00010",getDefaultUndirectedGraph(),ann)
 
 ##visualize sub-pathways of metabolic pathways based on enzyme commission (EC) numbers 
-#library(Rgraphviz)
-#geneList<-getAexample(k=1000)
-#subGraphList<-getKcSubGraph(k=4)
-#ann<-getAnn(geneList,graphList=subGraphList)
-#plotAnn("path:00010_1",subGraphList,ann)
+library(Rgraphviz)
+geneList<-getAexample(k=1000)
+subGraphList<-getKcSubGraph(k=4)
+ann<-getAnn(geneList,graphList=subGraphList)
+plotAnn("path:00010_1",subGraphList,ann)
 #go to KEGG
-#plotAnn("path:00010_1",subGraphList,ann,gotoKEGG=TRUE)
+plotAnn("path:00010_1",subGraphList,ann,gotoKEGG=TRUE)
+
+}
 }
 \keyword{ file }
 

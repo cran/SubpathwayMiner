@@ -156,7 +156,7 @@ getNodes<-function(top){
       ECListIndex<-0
       for(i in 1:length(top)){
             if(xmlName(top[[i]])=="entry"){
-                  if(!is.na(xmlAttrs(top[[i]])["reaction"])){
+                  if(!is.na(xmlAttrs(top[[i]])["reaction"])){#should revise
                         if(!is.na(xmlAttrs(top[[i]])["name"])){
                               if(xmlAttrs(top[[i]])["type"]=="enzyme"){
                               tmp1<-unlist(strsplit(xmlAttrs(top[[i]])["name"]," "))

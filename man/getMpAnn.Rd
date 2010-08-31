@@ -22,11 +22,14 @@ The function can implement the annotation and identification of metabolic pathwa
 \seealso{\code{\link{getKcsmpAnn}},\code{\link{getAnn}}, \code{\link{cutoffAnn}},\code{\link{printAnn}}}
 
 \examples{
-##annotate a set of genes to metabolic pathways
-# geneList<-getAexample(k=1000)
-# ann<-getMpAnn(geneList)
-# printAnn(ann)
+\dontrun{
 
+##annotate a set of genes to metabolic pathways
+geneList<-getAexample(k=1000)
+ann<-getMpAnn(geneList)
+printAnn(ann)
+
+}
 }
 \keyword{ file }
 

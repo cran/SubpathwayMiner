@@ -8,18 +8,18 @@ Get relationship between KEGG pathways and genes
      getDefaultGraph()
 }
 \details{
-Get relationship between KEGG pathways and genes. The relationship is obtained from the variable \code{\link{path2gene}} in the environment variable.
+Get relationship between KEGG pathways and genes. The relationship is obtained from the environment variable.
 
-Note that the "graph" is a list of charactor rather than the \code{graph-class}.
+Note that the "graph" is a charactor vector rather than the \code{graph-class}.
 }
 \value{
-   A list of charactor.
+   A vector of charactor.
 }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
 
 \examples{
 
-getDefaultGraph()
+pathwayId<-getDefaultGraph()
 
 }
 \keyword{ file }

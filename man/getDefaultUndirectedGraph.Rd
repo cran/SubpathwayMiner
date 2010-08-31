@@ -17,7 +17,7 @@ The default undirected graph based onenzyme commission (EC) numbers is obtained 
 
 \examples{
 
-getDefaultUndirectedGraph()
+uGraph<-getDefaultUndirectedGraph()
 
 }
 \keyword{ file }

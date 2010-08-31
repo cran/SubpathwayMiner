@@ -5,7 +5,7 @@ getAnn<-function(geneList,background=getDefaultBackground(),
    order="pvalue",decreasing=FALSE,graphList=getDefaultGraph()){
       if(typeof(geneList)!="character"){
 	  print("warning: your geneList must be 'character' vector. Because the type of your current geneList is not correct, it has been conveted arbitrarily using the function as.character().")
-	  as.character(geneList)
+	  geneList<-as.character(geneList)
 	  }
       if(!exists("ke2g")) initialize_ke2g()
       graphList<-graphList[sapply(graphList,function(x) length(x)>0)]     
@@ -16,15 +16,16 @@ getAnn<-function(geneList,background=getDefaultBackground(),
             ann<-list(pathwayName="not known",annGeneList=character(),annBgGeneList=character(),annGeneNumber=0,
                       annBgNumber=0,geneNumber=0,bgNumber=0,pvalue=1,qvalue=1)
             if(class(graphList[[i]])=="character"){
-                  graphGeneList<-graphList[[i]]
+                  graphGeneList<-getGeneFromPathway(graphList[[i]])
+				  pathwayName<-getPNameFromPId(graphList[[i]])
             }
             else if(class(graphList[[i]])=="graphNEL"){
-                  graphGeneList<-getGeneFromEnzyme(nodes(graphList[[i]]))         
+                  graphGeneList<-getGeneFromEnzyme(nodes(graphList[[i]]))   
+                  pathwayName<-keggpathid2name[[substring(names(graphList)[i],6,10)]]				  
             }            
             annotatedGeneList<-intersect(graphGeneList,geneList)
             annotatedBackgroundList<-intersect(graphGeneList,background)
-            
-            pathwayName<-keggpathid2name[[substring(names(graphList)[i],6,10)]]
+
             #pathwayName<-keggpathid2name[names(graphList)[i]]
             if(length(pathwayName)!=0)
                 ann$pathwayName<-pathwayName

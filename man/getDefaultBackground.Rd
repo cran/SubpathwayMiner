@@ -8,7 +8,7 @@
      getDefaultBackground()
 }
 \details{
-The default background genes are obtained from the variable \code{\link{background}} in the environment variable \code{\link{ke2g}}.
+The default background genes are obtained from the environment variable \code{\link{ke2g}}.
 }
 \value{
    A character vector of background genes.
@@ -17,7 +17,7 @@ The default background genes are obtained from the variable \code{\link{backgrou
 
 \examples{
 
-getDefaultBackground()
+background<-getDefaultBackground()
 
 }
 \keyword{ file }

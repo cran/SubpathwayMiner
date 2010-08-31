@@ -17,7 +17,7 @@ The identifier list of the default metabolic pathways is obtained from the varia
 
 \examples{
 
-getDefaultMetabolicPathway()
+mpidList<-getDefaultMetabolicPathway()
 
 }
 \keyword{ file }

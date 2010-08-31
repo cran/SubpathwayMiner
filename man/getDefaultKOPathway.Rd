@@ -17,7 +17,7 @@ The identifier list of pathways based on KEGG Orthology (KO) is obtained from th
 
 \examples{
 
-getDefaultKOPathway()
+kpidList<-getDefaultKOPathway()
 
 }
 \keyword{ file }

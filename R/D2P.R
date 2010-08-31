@@ -31,8 +31,7 @@ if(pathClass==TRUE&&diseCate==TRUE)
 generateNetwork<-function(inData,k=3,pvalue=0.01,geneNumber=0,diseCate=FALSE,pathClass=FALSE,exampleNumber=-1,verbose=TRUE)
 {
 if(!exists("ke2g")) initialize_ke2g();
-data("pathwayClass");
-pathwayClass<-Dise2P;
+pathwayClass<-get("pathwayClass",envir=ke2g);
 Dise<-as.matrix(inData[1]);
 Genes<-as.matrix(inData[2]);
 if(ncol(inData)==2){diseCate=FALSE;}

@@ -14,7 +14,7 @@
   \item{verbose}{A logical. If TRUE, the additional diagnostics are printed.}
 }
 \details{
-The function is able to update the graph variable \code{\link{uGraph}} and \code{\link{dGraph}} in the environment variable of the system. 
+The function is able to update the graph variable \code{\link{uGraph}} in the environment variable of the system. 
 
  We construct and update the simplification version of metabolic pathways by extracting relations from the XML data of metabolic pathways. The XML data is available from the FTP site. \url{ftp://ftp.genome.jp/pub/kegg/release/archive/kgml/KGML_v0.6.1/map/}
 
@@ -26,13 +26,16 @@ Note that if one needs to use the updated graphs in the future, one should run t
 Note that the programming is likely to be time consumming.
 }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
-\seealso{\code{\link{uGraph}},  \code{\link{dGraph}},\code{\link{getDefaultMetabolicPathway}},\code{\link{updateOrgAndIdType}}}
+\seealso{\code{\link{uGraph}}, \code{\link{getDefaultMetabolicPathway}},\code{\link{updateOrgAndIdType}}}
 
 \examples{
+\dontrun{
+
 ##construct the graphs list of Nucleotide Metabolism which include two pathways.
 #It is considered as the subset of pathways of interest.
-#updateGraphs(pathwayList=c("path:00230","path:00240"))
+updateGraphs(pathwayList=c("path:00230","path:00240"))
 
+}
 }
 \keyword{ file }
 

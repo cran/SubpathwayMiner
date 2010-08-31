@@ -23,11 +23,14 @@ The function can implement the sub-pathways annotation of metabolic pathways. It
 \seealso{\code{\link{getMpAnn}},\code{\link{getAnn}}, \code{\link{cutoffAnn}},\code{\link{printAnn}}}
 
 \examples{
-##Annotate a set of genes to sub-pathways of metabolic pathways
-# geneList<-getAexample(k=1000)
-# ann<-getKcsmpAnn(geneList,k=4)
-# printAnn(ann)[2:5]
+\dontrun{
 
+##Annotate a set of genes to sub-pathways of metabolic pathways
+geneList<-getAexample(k=1000)
+ann<-getKcsmpAnn(geneList,k=4)
+printAnn(ann)[2:5]
+
+}
 }
 \keyword{ file }
 

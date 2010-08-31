@@ -6,7 +6,7 @@
 }
 \usage{
   getKOAnn(geneList,background=getDefaultBackground(),
-   order="pvalue",decreasing=FALSE,graphList)
+   order="pvalue",decreasing=FALSE,graphList=getDefaultKOUndirectedGraph())
 }
 \arguments{
   \item{geneList}{A character vector of genes. }
@@ -30,16 +30,17 @@ If users don't set the argument \code{background}, the background distribution w
 
 To visualize and save the results, the \code{list} can be converted to the \code{data.frame} by the function \code{\link{printAnn}}. But, note that, compared with \code{data.frame}, the \code{list} provides more information, e.g., the annotated genes are saved in the \code{list},yet not in the \code{data.frame}.
 
-note that \code{geneList} submitted by users must be a 'character' vector.
+note that \code{geneList} submitted by users must be a 'character' vector. If not, the system will use the function as.character to convert data type.
 }
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
 \seealso{\code{\link{getKcSubGraph}},\code{\link{getDefaultKOUndirectedGraph}}, \code{\link{getAnn}}, \code{\link{cutoffAnn}}, \code{\link{printAnn}},\code{\link{plotKOAnn}}}
 
 \examples{
+\dontrun{
 
 ##annotate the genes to sub-pathway by using KEGG Orthology (KO).
 ##get a set of genes
-geneList<-getAexample(k=100)
+geneList<-getAexample(k=1000)
 #
 subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
 
@@ -54,12 +55,19 @@ result[2:5]
 plotKOAnn("path:00010_1",subGraphList,ann)
 
 #go to KEGG
-#plotKOAnn("path:00010_1",subGraphList,ann,gotoKEGG=TRUE)
+plotKOAnn("path:00010_1",subGraphList,ann,gotoKEGG=TRUE)
 
 ##write the annotation results to tab delimited file. 
 #note that the argument col.names=NA is essential.
  write.table(result,file="result",col.names=NA,sep="\t")
+ 
+##annotate the genes to entire pathway by using KEGG Orthology (KO). 
+geneList<-getAexample(k=1000)
+ann<-getKOAnn(geneList,graphList=getDefaultKOUndirectedGraph())
+result<-printAnn(ann)
+result[2:5]
 
+}
 }
 \keyword{ file }
 

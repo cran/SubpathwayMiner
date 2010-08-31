@@ -28,10 +28,13 @@ Note that the programming is likely to be time consumming.
 \seealso{\code{\link{KOuGraph}},\code{\link{updateOrgAndIdType}}}
 
 \examples{
+\dontrun{
+
 ##construct the graphs list of Nucleotide Metabolism which include two pathways.
 #It is considered as the subset of pathways of interest.
-#updateKOGraphs(pathwayList=c("path:00230","path:00240"))
+updateKOGraphs(pathwayList=c("path:00230","path:00240"))
 
+}
 }
 \keyword{ file }
 

@@ -10,7 +10,8 @@
 \documentclass[12pt]{article}
 
 \usepackage{Sweave}
-
+\usepackage{hyperref}
+\SweaveOpts{keep.source=TRUE,eps=FALSE,pdf=TRUE,prefix=TRUE} 
 \author{Chunquan Li}
 
 
@@ -142,18 +143,17 @@ Users can use the function \Rfunction{plotAnn} to visualize the pathways or sub-
 
 Visualize sub-pathways of metabolic pathways based on EC.
 <<fig=TRUE>>=
+geneList<-getAexample(k=1000)
 subGraphList<-getKcSubGraph(k=4)
 ann<-getAnn(geneList,graphList=subGraphList)
 plotAnn("path:00010_1",subGraphList,ann) 
 @
 \subsection{Visualize sub-pathways based on KEGG Orthology (KO) using the function plotKOAnn}
 Visualize sub-pathways based on KO.
-<<eval=FALSE>>=
+<<fig=TRUE>>=
 geneList<-getAexample(k=1000)
 subGraphListKO<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
 annKO<-getKOAnn(geneList,graphList=subGraphListKO)
-@
-<<fig=TRUE>>=
 plotKOAnn("path:00010_1",subGraphListKO,annKO) 
 @
 \subsection{Visualize pathways or sub-pathways through linking to KEGG web site}
@@ -180,7 +180,8 @@ Users that want to annotate genes to pathways or sub-pathways should ensure that
 <<>>=
 getOrgAndIdType()
 @ 
-The return values mean that the type of organism and identifier in the current study are Homo sapiens and Entrez gene identifiers. If they are different from the type of your genes, you need to change them with some functions, e.g., \Rfunction{updateOrgAndIdType}, \Rfunction{data}, \Rfunction{loadKe2g}.
+
+The return values mean that the type of organism and identifier in the current study are Homo sapiens and Entrez gene identifiers. If they are different from the type of your genes, you need to change them with some functions, e.g., \Rfunction{updateOrgAndIdType} and \Rfunction{loadKe2g}.
 
 \subsection{Set or update the organism and the type of gene identifier}
 The existing tools mainly use DBMS (data base management system) to store all data relative to analysis of pathways and the update process of the data is transparent to users, which means that the annotation results users get from these tools may become outdated. We don't use DBMS to store data. We present a new method that enables users to update data by themselves. Users are firstly required to set organism and type of gene identifier before annotateing genes to the pathways. According to the setting, the system can download all data relative to analysis of pathways in the organism, and then treat and store them in an environment variable in R. Through the method the system can synchronize the data with the KEGG GENE database and support most organisms and cross reference identifiers in the KEGG GENE database. 
@@ -206,13 +207,7 @@ The code below is used to load the environment variables of Saccharomyces cerevi
 <<eval=FALSE>>=
 loadKe2g("sce_sgd-sce.rda")
 @
-\subsection{Select the organism provided by the system}
-The environment variables of organisms with well annotated genomes are provided by the system and users can use the function \Rfunction{data} to load them.
 
-The code below is used to load the environment variables of Saccharomyces cerevisiae provided by our system. the type of gene identifier is ncbi-geneid.
-<<eval=FALSE>>=
-data("sce_ncbi-geneid")
-@
 
 \section{Use our flexible model to annotate genes to user-defined sub-pathways}
 Our system provides a flexible model for supporting the user-defined sub-pathways. To date, many algorithms in concepts of graph are vailable in the R packages (Huber et al., 2007). Through our model users can use easily these algorithms to annotate genes to the sub-pathways themselves. 
@@ -227,9 +222,9 @@ uGraph<-getDefaultUndirectedGraph()
 uGraph[1:2]
 @
 
-The return value of the function \Rfunction{getDefaultUndirectedGraph} is a list of \Rclass{graph}. The first graph in the list is the graph representation of the pathway "path:00010". The pathway's name is Glycolysis / Gluconeogenesis. One can use the function \Rfunction{getPathwayNameFromId} to get it. 
+The return value of the function \Rfunction{getDefaultUndirectedGraph} is a list of \Rclass{graph}. The first graph in the list is the graph representation of the pathway "path:00010". The pathway's name is Glycolysis / Gluconeogenesis. One can use the function \Rfunction{getPNameFromPId} to get it. 
 <<>>=
-getPathwayNameFromId("path:00010")
+getPNameFromPId("path:00010")
 @
 
 One can also use the function \Rfunction{plot} to display the graph.
@@ -266,7 +261,8 @@ We display a sub-graph in the list.
 mySubGraph[1]
 plot(mySubGraph[[1]],"neato")
 @
-You can now see that it is a clique in a graph and its name is path:00010\rule[-2pt]{1.5cm}{0.5pt}1. The name means that the graph is first subgraph of the pathway path:00010.
+
+You can now see that it is a clique in a graph and its name is path:00010\rule[-2pt]{0.2cm}{0.5pt}1. The name means that the graph is first subgraph of the pathway path:00010.
 \subsection{annotate genes to sub-pathways defined by yourself}
 After mining user-defined sub-pathways, you can easily annotate genes to these sub-pathways. 
 
@@ -292,15 +288,21 @@ The function is used to construct a disease-metabolic subpathway network(DMSPN) 
 
   Construct disease-metabolic subpathway networks. Only four diseases are treated as an example of using the function generateNetwork to generate networks.
 <<>>=
-data("inData")
-DMSPN<-generateNetwork(Dise2G,k=3,pvalue=0.005,geneNumber=0,diseCate=TRUE,pathClass=TRUE,exampleNumber=4,verbose=FALSE)
-DMSPN[1:5,]
+#Use disease-gene associations from GAD.
+path<-paste(system.file(package="SubpathwayMiner"),
+"/localdata/Dise2G.txt",sep="")
+Dise2G<-read.table(path,header=TRUE,sep = "\t", 
+quote="\"",colClasses="character")
+#generate network
+DMSPN<-generateNetwork(Dise2G,k=3,pvalue=0.005,geneNumber=0,
+diseCate=TRUE,pathClass=TRUE,exampleNumber=4,verbose=FALSE)
+DMSPN[1:5,c(1,2,3,4,13,7)]
 @
   Save the network as .txt file.
 <<eval=FALSE>>=
 write.table(DMSPN,"DMSPN.txt",row.names=FALSE,sep="\t")
 @
-  The disease-subpathway associations with p>=0.001 are ignored, and those subpathways, within which the disease gene number is less than 3, are also ignored.
+The disease-subpathway associations with p>=0.001 are ignored, and those subpathways, within which the disease gene number is less than 3, are also ignored.
 <<eval=FALSE>>=
 DMSPN<-generateNetwork(Dise2G,k=4,pvalue=0.001,geneNumber=3,exampleNumber=4)
 @

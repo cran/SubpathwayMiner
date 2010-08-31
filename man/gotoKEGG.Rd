@@ -20,26 +20,30 @@ On these pictures, The red nodes represent the enzymes (or KOs) thats include th
 \seealso{\code{\link{plotAnn}},\code{\link{getAnn}},\code{\link{printAnn}}}
 
 \examples{
+\dontrun{
+
 ##visualize pathways through linking to the KEGG web site.
 library(Rgraphviz)
-geneList<-getAexample(k=100)
+geneList<-getAexample(k=1000)
 ann<-getAnn(geneList)
-#gotoKEGG("path:00010",ann)
+gotoKEGG("path:00010",ann)
 
 
 ##visualize sub-pathways of metabolic pathways based on enzyme commission (EC)
 ##  numbers through linking to the KEGG web site.
-#geneList<-getAexample(k=1000)
-#subGraphList<-getKcSubGraph(k=4)
-#ann<-getAnn(geneList,graphList=subGraphList)
-#gotoKEGG("path:00010_1",ann)
+geneList<-getAexample(k=1000)
+subGraphList<-getKcSubGraph(k=4)
+ann<-getAnn(geneList,graphList=subGraphList)
+gotoKEGG("path:00010_1",ann)
 
 ##visualize sub-pathways sub-pathways based on KEGG Orthology (KO) identifiers
 ##  through linking to the KEGG web site.
-#geneList<-getAexample(k=100)
-#subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
-#ann<-getKOAnn(geneList,graphList=subGraphList)
-#gotoKEGG("path:00010_1",ann)
+geneList<-getAexample(k=1000)
+subGraphList<-getKcSubGraph(k=4,graphList=getDefaultKOUndirectedGraph())
+ann<-getKOAnn(geneList,graphList=subGraphList)
+gotoKEGG("path:00010_1",ann)
+
+}
 }
 \keyword{ file }
 

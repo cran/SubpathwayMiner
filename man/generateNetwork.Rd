@@ -4,7 +4,7 @@
 \description{Generate disease-metabolic subpathway networks}
 \usage{
 generateNetwork(inData,k=3,pvalue=0.01,geneNumber=0,
-                diseCate=FALSE,pathClass=FALSE,exampleNumber=-1,verbose=TRUE)
+         diseCate=FALSE,pathClass=FALSE,exampleNumber=-1,verbose=TRUE)
 }
 \arguments{
 \item{inData}{A data.frame. The disease-gene associations.}
@@ -33,12 +33,14 @@ A data.frame. Each row includes eleven elements at most: 'diseaseCates', 'diseas
 \author{Chunquan Li <lcqbio@yahoo.com.cn>}
 \seealso{\code{\link{getAnn}},\code{\link{getKcSubGraph}}}
 \examples{
+\dontrun{
 #Use disease-gene associations from GAD.
-data("inData")
-
+path<-paste(system.file(package="SubpathwayMiner"),
+"/localdata/Dise2G.txt",sep="")
+Dise2G<-read.table(path,header=TRUE,sep = "\t", quote="\"",colClasses="character")
 #construct disease-metabolic subpathway networks. Only two diseases are treated
 ## as an example of using the function generateNetwork to generate networks.
-DMSPN<-generateNetwork(Dise2G,exampleNumber=2)
+DMSPN<-generateNetwork(Dise2G,exampleNumber=4)
 
 #display 5 associations.
 DMSPN[1:5,]
@@ -50,15 +52,15 @@ write.table(DMSPN,"DMSPN.txt",row.names=FALSE,sep="\t")
 
 ## disease-subpathway associations with p>=0.001 are ignored, and those subpathways, 
 ##  within which the disease gene number is less than 3, are also ignored.
-#DMSPN<-generateNetwork(Dise2G,k=4,pvalue=0.001,geneNumber=3,exampleNumber=4)
+DMSPN<-generateNetwork(Dise2G,k=4,pvalue=0.001,geneNumber=3,exampleNumber=4)
 
 ## construct networks with disease class and pathway class. 
-#DMSPN<-generateNetwork(Dise2G,diseCate=TRUE,pathClass=TRUE,exampleNumber=2)
+DMSPN<-generateNetwork(Dise2G,diseCate=TRUE,pathClass=TRUE,exampleNumber=4)
 
 
 ##all diseases are treated
-#data("inData")
-#DMSPN<-generateNetwork(Dise2G,exampleNumber=-1)
+DMSPN<-generateNetwork(Dise2G,exampleNumber=-1)
 
+}
 }
 \keyword{file}
